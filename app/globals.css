@@ -1,0 +1,157 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f7f5ef;
+  color: #1f2933;
+}
+
+.page {
+  min-height: 100vh;
+}
+
+.hero {
+  padding: 90px 24px;
+  max-width: 950px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tagline {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4f46e5;
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-size: clamp(48px, 8vw, 88px);
+  line-height: 0.95;
+  margin: 0 0 24px;
+}
+
+.subtitle {
+  font-size: 21px;
+  line-height: 1.6;
+  max-width: 760px;
+  margin: 0 auto 32px;
+  color: #4b5563;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton {
+  text-decoration: none;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.primaryButton {
+  background: #111827;
+  color: white;
+}
+
+.secondaryButton {
+  background: white;
+  color: #111827;
+  border: 1px solid #d1d5db;
+}
+
+.section,
+.planner {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 56px 24px;
+}
+
+.section h2,
+.planner h2 {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.section > p,
+.planner > p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #4b5563;
+  max-width: 800px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.card,
+.planner {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card p {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.signupForm {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.signupForm input {
+  flex: 1;
+  min-width: 240px;
+  padding: 15px 16px;
+  border-radius: 14px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+}
+
+.signupForm button {
+  padding: 15px 20px;
+  border-radius: 14px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  color: #6b7280;
+}
+
+@media (max-width: 800px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 64px;
+  }
+}
