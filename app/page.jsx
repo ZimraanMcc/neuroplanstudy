@@ -25,10 +25,8 @@ export default function HomePage() {
   function generatePlan(event) {
     event.preventDefault();
 
-    const subjects =
-      form.subjects.trim() || "your main subjects";
-    const exams =
-      form.examDates.trim() || "your upcoming exams";
+    const subjects = form.subjects.trim() || "your main subjects";
+    const exams = form.examDates.trim() || "your upcoming exams";
     const struggles =
       form.struggles.trim() ||
       "getting started, staying consistent and avoiding overwhelm";
@@ -120,9 +118,7 @@ Choose one subject and revise for just ${sessionLength} minutes.
     <main className="page">
       <section className="hero">
         <p className="tagline">NeuroPlan Study</p>
-
         <h1>A calmer way to revise.</h1>
-
         <p className="subtitle">
           Create realistic revision plans for GCSEs, A-Levels, BTECs and
           university work — built for overwhelmed, ADHD and autistic students.
@@ -277,79 +273,4 @@ Choose one subject and revise for just ${sessionLength} minutes.
       </footer>
     </main>
   );
-}
-.plannerForm {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 28px;
-}
-
-.plannerForm label {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-weight: 700;
-  color: #111827;
-}
-
-.plannerForm input,
-.plannerForm select,
-.plannerForm textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid #d1d5db;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #ffffff;
-  color: #111827;
-}
-
-.plannerForm textarea {
-  min-height: 110px;
-  resize: vertical;
-}
-
-.plannerForm button {
-  grid-column: 1 / -1;
-  padding: 16px 22px;
-  border-radius: 16px;
-  border: none;
-  background: #111827;
-  color: white;
-  font-size: 17px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.plannerForm button:hover {
-  background: #374151;
-}
-
-.resultBox {
-  margin-top: 32px;
-  background: #111827;
-  color: #ffffff;
-  border-radius: 24px;
-  padding: 28px;
-}
-
-.resultBox h3 {
-  margin-top: 0;
-  font-size: 26px;
-}
-
-.resultBox pre {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.7;
-  font-size: 16px;
-}
-
-@media (max-width: 800px) {
-  .plannerForm {
-    grid-template-columns: 1fr;
-  }
 }
