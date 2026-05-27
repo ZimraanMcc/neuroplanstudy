@@ -1,4 +1,18 @@
-});
+"use client";
+
+import { useState } from "react";
+
+export default function HomePage() {
+  const [form, setForm] = useState({
+    qualification: "GCSE",
+    subjects: "",
+    examDates: "",
+    hoursPerDay: "1",
+    energy: "Medium",
+    studyStyle: "ADHD-friendly",
+    struggles: "",
+    priority: "I feel behind",
+  });
 
   const [plan, setPlan] = useState("");
 
@@ -399,6 +413,12 @@ Aim for started.
 
       <footer>
         <p>© 2026 NeuroPlan Study. Built in the UK.</p>
+
+        <div className="footerLinks">
+          <a href="/about">About</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Use</a>
+        </div>
       </footer>
     </main>
   );
