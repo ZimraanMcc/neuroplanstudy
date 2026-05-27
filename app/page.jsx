@@ -1,18 +1,4 @@
-"use client";
-
-import { useState } from "react";
-
-export default function HomePage() {
-  const [form, setForm] = useState({
-    qualification: "GCSE",
-    subjects: "",
-    examDates: "",
-    hoursPerDay: "1",
-    energy: "Medium",
-    studyStyle: "ADHD-friendly",
-    struggles: "",
-    priority: "I feel behind",
-  });
+});
 
   const [plan, setPlan] = useState("");
 
@@ -23,9 +9,7 @@ export default function HomePage() {
     }));
   }
 
-  function generatePlan(event) {
-    event.preventDefault();
-
+  function generatePlan() {
     const subjects = form.subjects.trim() || "your main subjects";
     const exams = form.examDates.trim() || "your upcoming exams";
     const struggles =
@@ -59,19 +43,19 @@ export default function HomePage() {
 
     if (form.studyStyle === "ADHD-friendly") {
       modeAdvice =
-        "Use short timers, visible checklists and quick wins. Do not start with the hardest task. Start with the easiest useful action so your brain gets momentum.";
+        "Use short timers, visible checklists and quick wins. Start with the easiest useful action so your brain gets momentum.";
     } else if (form.studyStyle === "Autism-friendly") {
       modeAdvice =
-        "Use a predictable routine, clear start and stop times, and avoid sudden changes where possible. Keep your revision space calm and reduce unnecessary choices.";
+        "Use a predictable routine, clear start and stop times, and reduce unnecessary choices where possible.";
     } else if (form.studyStyle === "Burnout / low-energy") {
       modeAdvice =
-        "Your goal is not maximum productivity. Your goal is staying connected to revision without pushing yourself into shutdown. Small tasks are enough.";
+        "Your goal is not maximum productivity. Your goal is staying connected to revision without pushing yourself into shutdown.";
     } else if (form.studyStyle === "Last-minute panic mode") {
       modeAdvice =
-        "Focus on the highest-value topics first. Do not try to cover everything perfectly. Prioritise exam-style questions, key definitions and common mistakes.";
+        "Focus on the highest-value topics first. Prioritise exam-style questions, key definitions and common mistakes.";
     } else {
       modeAdvice =
-        "Use a flexible routine with realistic sessions, breaks and catch-up space. The plan should support you, not punish you.";
+        "Use a flexible routine with realistic sessions, breaks and catch-up space.";
     }
 
     const generatedPlan = `
@@ -125,12 +109,6 @@ Start with this:
 - Write down 3 tiny tasks.
 - Complete only the first task.
 
-Example:
-Instead of “revise Biology”, write:
-- read one page on cells
-- make 5 flashcards
-- answer 3 practice questions
-
 
 3. Your 7-day calm revision plan
 
@@ -154,14 +132,12 @@ Day 3 — Mixed subject day
 - Take a proper break between them.
 
 Day 4 — Low-energy backup day
-- This is your safety day.
 - If you feel okay, do one normal session.
 - If you feel low, do one tiny task:
   - organise notes
   - watch one short explanation video
   - make 3 flashcards
   - answer one question
-- The goal is staying connected, not being perfect.
 
 Day 5 — Practice day
 - Try exam-style questions.
@@ -193,9 +169,6 @@ Use this reset rule:
 - Missed a week: make a new 3-day emergency plan.
 - Feeling overwhelmed: do a 5-minute starter task only.
 
-Falling behind does not mean the plan failed.
-It means the plan needs adjusting.
-
 
 5. Low-energy version
 
@@ -209,25 +182,9 @@ If everything feels too much, use this instead:
 That still counts.
 
 
-6. Exam countdown tips
+6. Reminder
 
-If your exam is soon:
-- Prioritise practice questions.
-- Focus on common topics and weak areas.
-- Do not spend hours making perfect notes.
-- Use mark schemes where possible.
-- Revise in short blocks rather than cramming until exhausted.
-
-If your exam is further away:
-- Rotate subjects across the week.
-- Review older topics regularly.
-- Build flashcards slowly.
-- Keep catch-up space in your timetable.
-
-
-7. Reminder
-
-NeuroPlan is a study-planning tool. It can help you structure revision, but it is not medical, mental health or academic guarantee advice. If studying is seriously affecting your wellbeing, speak to a trusted adult, tutor, GP, school, college or university support service.
+NeuroPlan is a study-planning tool. It can help you structure revision, but it is not medical, mental health or academic guarantee advice.
 
 
 Your first task now
@@ -314,7 +271,7 @@ Aim for started.
           revision structure you can start using today.
         </p>
 
-        <form className="plannerForm" onSubmit={generatePlan}>
+        <div className="plannerForm">
           <label>
             Qualification
             <select
@@ -411,8 +368,10 @@ Aim for started.
             />
           </label>
 
-          <button type="submit">Generate my plan</button>
-        </form>
+          <button type="button" onClick={generatePlan}>
+            Generate my plan
+          </button>
+        </div>
 
         {plan && (
           <div className="resultBox">
