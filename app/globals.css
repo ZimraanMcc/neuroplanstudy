@@ -189,7 +189,27 @@ h1 {
   line-height: 1.7;
   font-size: 16px;
 }
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
+.resultHeader button {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.resultHeader button:hover {
+  background: #e5e7eb;
+}
 footer {
   text-align: center;
   padding: 40px 24px;
