@@ -238,3 +238,44 @@ footer {
     font-size: 30px;
   }
 }
+.legalPage {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 64px 24px;
+  line-height: 1.7;
+}
+
+.legalPage h1 {
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.legalPage h2 {
+  margin-top: 34px;
+  font-size: 24px;
+}
+
+.legalPage p,
+.legalPage li {
+  font-size: 18px;
+  color: #4b5563;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: #4f46e5;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.smallText {
+  margin-top: 40px;
+  font-size: 14px !important;
+  color: #6b7280 !important;
+}
