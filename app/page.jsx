@@ -223,38 +223,46 @@ Aim for started.
       <section className="hero">
         <p className="tagline">NeuroPlan Study</p>
 
-        <h1>A calmer way to revise.</h1>
+        <h1>Revision planning for overwhelmed students.</h1>
 
         <p className="subtitle">
-          Create realistic revision plans for GCSEs, A-Levels, BTECs and
-          university work — built for overwhelmed, ADHD and autistic students in
-          the UK.
+          Build a calm, realistic revision plan for GCSEs, A-Levels, BTECs and
+          university work. Designed for students who struggle with overwhelm,
+          ADHD, autism, anxiety, burnout or simply getting started.
         </p>
 
         <div className="buttons">
           <a href="#planner" className="primaryButton">
-            Create my revision plan
+            Create my free plan
           </a>
           <a href="#how-it-works" className="secondaryButton">
-            How it works
+            See how it works
           </a>
         </div>
+
+        <p className="heroNote">
+          Free early version · Built in the UK · No account needed
+        </p>
       </section>
 
-      <section className="section" id="how-it-works">
-        <h2>Built for students who feel overwhelmed</h2>
+      <section className="section introSection" id="how-it-works">
+        <div>
+          <p className="sectionLabel">Why NeuroPlan exists</p>
+          <h2>Most revision timetables are too rigid.</h2>
+        </div>
 
         <p>
-          Most revision timetables are too rigid. NeuroPlan creates flexible
-          plans with short study blocks, breaks, catch-up space and low-energy
-          options.
+          A normal timetable assumes you can focus the same way every day, stay
+          motivated, follow long study blocks and never fall behind. NeuroPlan
+          works differently. It gives you short sessions, catch-up space,
+          low-energy options and a clear first step.
         </p>
 
         <div className="cards">
           <div className="card">
             <h3>ADHD-friendly structure</h3>
             <p>
-              Short sessions, quick wins and clear first steps so starting feels
+              Short sessions, visible steps and quick wins so starting feels
               less impossible.
             </p>
           </div>
@@ -262,22 +270,39 @@ Aim for started.
           <div className="card">
             <h3>Autism-friendly routine</h3>
             <p>
-              Predictable plans, reduced overwhelm and clear steps without
-              unnecessary pressure.
+              Predictable plans, clear start points and reduced unnecessary
+              choices.
             </p>
           </div>
 
           <div className="card">
             <h3>Burnout-aware planning</h3>
             <p>
-              Low-energy alternatives and catch-up space so one bad day does not
-              ruin the whole week.
+              Low-energy alternatives and catch-up days so one difficult day
+              does not ruin the week.
             </p>
           </div>
         </div>
       </section>
 
+      <section className="section whoSection">
+        <p className="sectionLabel">Who it is for</p>
+        <h2>Built for UK students who need revision to feel doable.</h2>
+
+        <div className="pillGrid">
+          <span>GCSE students</span>
+          <span>A-Level students</span>
+          <span>BTEC and T-Level learners</span>
+          <span>University students</span>
+          <span>ADHD learners</span>
+          <span>Autistic students</span>
+          <span>Anxious students</span>
+          <span>Burnt-out students</span>
+        </div>
+      </section>
+
       <section className="planner" id="planner">
+        <p className="sectionLabel">Free planner</p>
         <h2>Create your revision plan</h2>
 
         <p>
@@ -401,13 +426,14 @@ Aim for started.
         )}
       </section>
 
-      <section className="section">
-        <h2>Why NeuroPlan is different</h2>
+      <section className="section trustSection">
+        <p className="sectionLabel">Important note</p>
+        <h2>A study tool, not pressure.</h2>
         <p>
-          NeuroPlan is designed around real student struggles: overwhelm,
-          procrastination, low energy, anxiety, ADHD, autism and burnout. It
-          helps turn revision into smaller steps instead of one huge impossible
-          task.
+          NeuroPlan is here to help you structure revision into smaller steps.
+          It does not guarantee grades and it is not medical or mental health
+          advice. If studying is seriously affecting your wellbeing, speak to a
+          trusted adult, teacher, GP, college, university or support service.
         </p>
       </section>
 
