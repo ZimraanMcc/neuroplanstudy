@@ -49,7 +49,7 @@ export default function PrivacyPage() {
 
       <h2>Contact</h2>
       <p>
-        For privacy questions, contact: hello@neuroplanstudy.com
+        For privacy questions, contact: help@neuroplanstudy.com
       </p>
 
       <p className="smallText">Last updated: May 2026</p>
