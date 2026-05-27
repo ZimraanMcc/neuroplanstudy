@@ -45,7 +45,7 @@ export default function TermsPage() {
       </p>
 
       <h2>Contact</h2>
-      <p>For questions about these terms, contact: hello@neuroplanstudy.com</p>
+      <p>For questions about these terms, contact: help@neuroplanstudy.com</p>
 
       <p className="smallText">Last updated: May 2026</p>
     </main>
