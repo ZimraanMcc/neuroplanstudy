@@ -118,8 +118,6 @@ h1 {
   line-height: 1.6;
 }
 
-/* Planner form */
-
 .plannerForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -189,6 +187,7 @@ h1 {
   line-height: 1.7;
   font-size: 16px;
 }
+
 .resultHeader {
   display: flex;
   justify-content: space-between;
@@ -210,34 +209,7 @@ h1 {
 .resultHeader button:hover {
   background: #e5e7eb;
 }
-footer {
-  text-align: center;
-  padding: 40px 24px;
-  color: #6b7280;
-}
 
-@media (max-width: 800px) {
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .plannerForm {
-    grid-template-columns: 1fr;
-  }
-
-  .hero {
-    padding-top: 64px;
-  }
-
-  h1 {
-    font-size: 48px;
-  }
-
-  .section h2,
-  .planner h2 {
-    font-size: 30px;
-  }
-}
 .legalPage {
   max-width: 850px;
   margin: 0 auto;
@@ -278,4 +250,51 @@ footer {
   margin-top: 40px;
   font-size: 14px !important;
   color: #6b7280 !important;
+}
+
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  color: #6b7280;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.footerLinks a {
+  color: #4f46e5;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footerLinks a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .plannerForm {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 64px;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  .section h2,
+  .planner h2 {
+    font-size: 30px;
+  }
 }
