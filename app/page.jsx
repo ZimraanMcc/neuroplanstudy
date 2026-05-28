@@ -3,6 +3,8 @@
 import { useState } from "react";
 
 export default function HomePage() {
+  const DAILY_LIMIT = 3;
+
   const [form, setForm] = useState({
     qualification: "GCSE",
     subjects: "",
@@ -17,7 +19,6 @@ export default function HomePage() {
   const [plan, setPlan] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const DAILY_LIMIT = 3;
 
   function updateForm(field, value) {
     setForm((current) => ({
@@ -30,6 +31,23 @@ export default function HomePage() {
     setIsLoading(true);
     setErrorMessage("");
     setPlan("");
+
+    const today = new Date().toISOString().split("T")[0];
+    const usageKey = "neuroplan_daily_usage";
+    const savedUsage = JSON.parse(localStorage.getItem(usageKey) || "{}");
+
+    if (savedUsage.date !== today) {
+      savedUsage.date = today;
+      savedUsage.count = 0;
+    }
+
+    if (savedUsage.count >= DAILY_LIMIT) {
+      setIsLoading(false);
+      setErrorMessage(
+        "You have reached today’s free AI plan limit. Please come back tomorrow."
+      );
+      return;
+    }
 
     try {
       const response = await fetch("/api/generate-plan", {
@@ -45,6 +63,9 @@ export default function HomePage() {
       if (!response.ok) {
         throw new Error(data.error || "Something went wrong.");
       }
+
+      savedUsage.count += 1;
+      localStorage.setItem(usageKey, JSON.stringify(savedUsage));
 
       setPlan(data.plan);
     } catch (error) {
@@ -85,7 +106,7 @@ export default function HomePage() {
         </div>
 
         <p className="heroNote">
-          Free early version · Built in the UK · No account needed
+          Free AI version · Built in the UK · No account needed
         </p>
       </section>
 
@@ -153,6 +174,16 @@ export default function HomePage() {
           Enter your study details below. NeuroPlan will create a personalised
           revision structure based on your subjects, deadlines, energy and study
           style.
+        </p>
+
+        <p
+          style={{
+            marginTop: "10px",
+            fontWeight: "700",
+            color: "#5b4b2f",
+          }}
+        >
+          Free early version: 3 AI plans per day per device.
         </p>
 
         <div className="plannerForm">
