@@ -367,6 +367,59 @@ p {
   padding: 11px 16px;
 }
 
+.resultActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.planMeta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.planMeta span {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f9fafb;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.planContent {
+  background: white;
+  color: #111827;
+  border-radius: 22px;
+  padding: 24px;
+}
+
+.planMainHeading {
+  font-size: 2rem;
+  margin: 0 0 18px;
+  color: #111827;
+}
+
+.planSectionHeading {
+  font-size: 1.35rem;
+  margin: 28px 0 10px;
+  color: #6d28d9;
+}
+
+.planParagraph {
+  margin: 8px 0;
+  color: #374151;
+}
+
+.planBullet {
+  margin: 8px 0 8px 12px;
+  color: #374151;
+  font-weight: 600;
+}
+
 .resultBox pre {
   margin: 0;
   white-space: pre-wrap;
@@ -429,6 +482,50 @@ footer {
 .legalPage a {
   color: #6d28d9;
   font-weight: 800;
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  .hero,
+  .introSection,
+  .whoSection,
+  .plannerForm,
+  .waitlistSection,
+  .trustSection,
+  footer,
+  .resultActions,
+  .planMeta,
+  .planner > p,
+  .planner > h2,
+  .planner > .sectionLabel {
+    display: none !important;
+  }
+
+  .planner,
+  .resultBox,
+  .planContent {
+    box-shadow: none;
+    background: white;
+    color: black;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .resultBox {
+    display: block;
+  }
+
+  .resultHeader h3,
+  .planMainHeading,
+  .planSectionHeading,
+  .planParagraph,
+  .planBullet {
+    color: black;
+  }
 }
 
 @media (max-width: 800px) {
