@@ -10,6 +10,7 @@
   "dependencies": {
     "@vercel/analytics": "latest",
     "next": "latest",
+    "openai": "latest",
     "react": "latest",
     "react-dom": "latest"
   }
