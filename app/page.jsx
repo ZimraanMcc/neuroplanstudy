@@ -15,6 +15,8 @@ export default function HomePage() {
   });
 
   const [plan, setPlan] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function updateForm(field, value) {
     setForm((current) => ({
@@ -23,193 +25,34 @@ export default function HomePage() {
     }));
   }
 
-  function generatePlan() {
-    const subjects = form.subjects.trim() || "your main subjects";
-    const exams = form.examDates.trim() || "your upcoming exams";
-    const struggles =
-      form.struggles.trim() ||
-      "getting started, staying consistent and avoiding overwhelm";
+  async function generatePlan() {
+    setIsLoading(true);
+    setErrorMessage("");
+    setPlan("");
 
-    const dailyHours = Number(form.hoursPerDay);
+    try {
+      const response = await fetch("/api/generate-plan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
 
-    const sessionLength =
-      form.energy === "Low"
-        ? "15–20 minute"
-        : form.energy === "High"
-        ? "35–45 minute"
-        : "25–30 minute";
+      const data = await response.json();
 
-    const sessionsPerDay =
-      dailyHours <= 1
-        ? "1 focused session per day"
-        : dailyHours === 2
-        ? "2 focused sessions per day"
-        : "3 focused sessions per day with proper breaks";
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
 
-    const breakAdvice =
-      form.energy === "Low"
-        ? "Take a 10–15 minute break after each short session. Low energy still counts as progress."
-        : form.energy === "High"
-        ? "Use your energy, but do not overdo it. Take breaks before you crash."
-        : "Take a 5–10 minute break between sessions to keep your focus steady.";
-
-    let modeAdvice = "";
-
-    if (form.studyStyle === "ADHD-friendly") {
-      modeAdvice =
-        "Use short timers, visible checklists and quick wins. Start with the easiest useful action so your brain gets momentum.";
-    } else if (form.studyStyle === "Autism-friendly") {
-      modeAdvice =
-        "Use a predictable routine, clear start and stop times, and reduce unnecessary choices where possible.";
-    } else if (form.studyStyle === "Burnout / low-energy") {
-      modeAdvice =
-        "Your goal is not maximum productivity. Your goal is staying connected to revision without pushing yourself into shutdown.";
-    } else if (form.studyStyle === "Last-minute panic mode") {
-      modeAdvice =
-        "Focus on the highest-value topics first. Prioritise exam-style questions, key definitions and common mistakes.";
-    } else {
-      modeAdvice =
-        "Use a flexible routine with realistic sessions, breaks and catch-up space.";
+      setPlan(data.plan);
+    } catch (error) {
+      setErrorMessage(
+        "Sorry, NeuroPlan could not generate a plan right now. Please try again in a moment."
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-    const generatedPlan = `
-Your NeuroPlan Study revision plan
-
-Qualification:
-${form.qualification}
-
-Subjects:
-${subjects}
-
-Important dates:
-${exams}
-
-Current priority:
-${form.priority}
-
-Energy level:
-${form.energy}
-
-Study mode:
-${form.studyStyle}
-
-Main challenge:
-${struggles}
-
-
-1. Your revision structure
-
-Use ${sessionLength} study blocks.
-
-Aim for:
-${sessionsPerDay}.
-
-Break guidance:
-${breakAdvice}
-
-Mode guidance:
-${modeAdvice}
-
-
-2. Today’s first step
-
-Do not start with the whole subject.
-
-Start with this:
-
-- Choose one subject.
-- Choose one small topic.
-- Set a timer for ${sessionLength} minutes.
-- Write down 3 tiny tasks.
-- Complete only the first task.
-
-
-3. Your 7-day calm revision plan
-
-Day 1 — Reduce overwhelm
-- Pick the subject that feels most urgent.
-- Choose one small topic.
-- Make a quick list of what needs doing.
-- Complete one short revision block.
-- Stop before you feel completely drained.
-
-Day 2 — Build momentum
-- Revise one weaker topic.
-- Use active recall: close your notes and test yourself.
-- Make 5–10 flashcards or summary points.
-- End by writing one thing you understand better now.
-
-Day 3 — Mixed subject day
-- Do one session on a harder subject.
-- Do one session on an easier subject.
-- Keep the easier session as a confidence builder.
-- Take a proper break between them.
-
-Day 4 — Low-energy backup day
-- If you feel okay, do one normal session.
-- If you feel low, do one tiny task:
-  - organise notes
-  - watch one short explanation video
-  - make 3 flashcards
-  - answer one question
-
-Day 5 — Practice day
-- Try exam-style questions.
-- Mark them honestly.
-- Write down your common mistakes.
-- Choose one mistake to fix next time.
-
-Day 6 — Review day
-- Revisit something from Day 1 or Day 2.
-- Test yourself before looking at notes.
-- Repeat the parts you forgot.
-- Keep the session short and focused.
-
-Day 7 — Reset and plan ahead
-- Lightly review the week.
-- Pick your top 3 topics for next week.
-- Move unfinished tasks forward without guilt.
-- Take a proper rest break.
-
-
-4. If you fall behind
-
-Do not restart the whole plan.
-
-Use this reset rule:
-
-- Missed 1 day: continue from today.
-- Missed 2–3 days: choose only the most urgent topic.
-- Missed a week: make a new 3-day emergency plan.
-- Feeling overwhelmed: do a 5-minute starter task only.
-
-
-5. Low-energy version
-
-If everything feels too much, use this instead:
-
-- 5 minutes: open your notes and choose one topic.
-- 10 minutes: read or watch one explanation.
-- 10 minutes: write down 3 key points.
-- 5 minutes: close everything and stop.
-
-That still counts.
-
-
-6. Reminder
-
-NeuroPlan is a study-planning tool. It can help you structure revision, but it is not medical, mental health or academic guarantee advice.
-
-
-Your first task now
-
-Choose one subject and do just ${sessionLength} minutes.
-
-Do not aim for perfect.
-Aim for started.
-`;
-
-    setPlan(generatedPlan.trim());
   }
 
   function copyPlan() {
@@ -233,7 +76,7 @@ Aim for started.
 
         <div className="buttons">
           <a href="#planner" className="primaryButton">
-            Create my free plan
+            Create my free AI plan
           </a>
           <a href="#how-it-works" className="secondaryButton">
             See how it works
@@ -302,12 +145,13 @@ Aim for started.
       </section>
 
       <section className="planner" id="planner">
-        <p className="sectionLabel">Free planner</p>
+        <p className="sectionLabel">Free AI planner</p>
         <h2>Create your revision plan</h2>
 
         <p>
-          Enter your study details below. NeuroPlan will create a calm 7-day
-          revision structure you can start using today.
+          Enter your study details below. NeuroPlan will create a personalised
+          revision structure based on your subjects, deadlines, energy and study
+          style.
         </p>
 
         <div className="plannerForm">
@@ -407,15 +251,17 @@ Aim for started.
             />
           </label>
 
-          <button type="button" onClick={generatePlan}>
-            Generate my plan
+          <button type="button" onClick={generatePlan} disabled={isLoading}>
+            {isLoading ? "Creating your plan..." : "Generate my AI plan"}
           </button>
         </div>
+
+        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
 
         {plan && (
           <div className="resultBox">
             <div className="resultHeader">
-              <h3>Your plan</h3>
+              <h3>Your AI plan</h3>
               <button type="button" onClick={copyPlan}>
                 Copy plan
               </button>
