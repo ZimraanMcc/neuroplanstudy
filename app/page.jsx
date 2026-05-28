@@ -17,6 +17,7 @@ export default function HomePage() {
   const [plan, setPlan] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const DAILY_LIMIT = 3;
 
   function updateForm(field, value) {
     setForm((current) => ({
