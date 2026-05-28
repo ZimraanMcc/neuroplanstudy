@@ -304,6 +304,34 @@ export default function HomePage() {
         )}
       </section>
 
+      <section className="section waitlistSection">
+        <p className="sectionLabel">Early updates</p>
+        <h2>Want to follow NeuroPlan as it grows?</h2>
+
+        <p>
+          Join the early updates list to hear when NeuroPlan adds saved plans,
+          printable timetables, accounts, reminders and premium features.
+        </p>
+
+        <a
+          className="primaryButton"
+          href="mailto:help@neuroplanstudy.com?subject=Join%20NeuroPlan%20updates&body=Hi%2C%20please%20add%20me%20to%20the%20NeuroPlan%20Study%20early%20updates%20list."
+        >
+          Join the early updates list
+        </a>
+
+        <p
+          style={{
+            marginTop: "14px",
+            fontSize: "0.95rem",
+            color: "#6b5d42",
+          }}
+        >
+          This opens your email app. You can ask to be removed from updates at
+          any time.
+        </p>
+      </section>
+
       <section className="section trustSection">
         <p className="sectionLabel">Important note</p>
         <h2>A study tool, not pressure.</h2>
