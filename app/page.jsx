@@ -4,21 +4,29 @@ import { useState } from "react";
 
 export default function HomePage() {
   const DAILY_LIMIT = 3;
+  const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   const [form, setForm] = useState({
     qualification: "GCSE",
     subjects: "",
     examDates: "",
+    weakAreas: "",
     hoursPerDay: "1",
+    availableDays: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+    sessionLength: "20–25 minutes",
     energy: "Medium",
     studyStyle: "ADHD-friendly",
     struggles: "",
     priority: "I feel behind",
+    currentSituation: "I’m behind",
+    adjustmentStyle: "Make it easier",
   });
 
   const [plan, setPlan] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [followUpMessage, setFollowUpMessage] = useState("");
+  const [checkIns, setCheckIns] = useState([]);
 
   function updateForm(field, value) {
     setForm((current) => ({
@@ -27,10 +35,24 @@ export default function HomePage() {
     }));
   }
 
+  function toggleDay(day) {
+    setForm((current) => {
+      const alreadySelected = current.availableDays.includes(day);
+
+      return {
+        ...current,
+        availableDays: alreadySelected
+          ? current.availableDays.filter((item) => item !== day)
+          : [...current.availableDays, day],
+      };
+    });
+  }
+
   async function generatePlan() {
     setIsLoading(true);
     setErrorMessage("");
     setPlan("");
+    setFollowUpMessage("");
 
     const today = new Date().toISOString().split("T")[0];
     const usageKey = "neuroplan_daily_usage";
@@ -67,7 +89,17 @@ export default function HomePage() {
       savedUsage.count += 1;
       localStorage.setItem(usageKey, JSON.stringify(savedUsage));
 
+      const savedPlan = {
+        createdAt: new Date().toISOString(),
+        form,
+        plan: data.plan,
+        checkIns: [],
+      };
+
+      localStorage.setItem("neuroplan_current_plan", JSON.stringify(savedPlan));
+
       setPlan(data.plan);
+      setCheckIns([]);
     } catch (error) {
       setErrorMessage(
         "Sorry, NeuroPlan could not generate a plan right now. Please try again in a moment."
@@ -91,6 +123,9 @@ export default function HomePage() {
 Qualification: ${form.qualification}
 Subjects: ${form.subjects || "Not provided"}
 Exam dates/deadlines: ${form.examDates || "Not provided"}
+Weak areas: ${form.weakAreas || "Not provided"}
+Study days: ${form.availableDays.join(", ")}
+Session length: ${form.sessionLength}
 Study mode: ${form.studyStyle}
 Energy level: ${form.energy}
 
@@ -115,6 +150,54 @@ https://neuroplanstudy.com
 
   function printPlan() {
     window.print();
+  }
+
+  function checkIn(status) {
+    const today = new Date().toISOString().split("T")[0];
+
+    const newCheckIn = {
+      date: today,
+      status,
+    };
+
+    const updatedCheckIns = [...checkIns, newCheckIn];
+    setCheckIns(updatedCheckIns);
+
+    const savedPlan = JSON.parse(
+      localStorage.getItem("neuroplan_current_plan") || "{}"
+    );
+
+    localStorage.setItem(
+      "neuroplan_current_plan",
+      JSON.stringify({
+        ...savedPlan,
+        checkIns: updatedCheckIns,
+      })
+    );
+
+    if (status === "completed") {
+      setFollowUpMessage(
+        "Good work — today counts. Tomorrow, keep the same plan but avoid adding extra pressure. Consistency matters more than doing everything perfectly."
+      );
+    }
+
+    if (status === "some") {
+      setFollowUpMessage(
+        "That still counts. Tomorrow, reduce the first task slightly and start with the subject or topic that feels most urgent. Do not restart the whole plan."
+      );
+    }
+
+    if (status === "missed") {
+      setFollowUpMessage(
+        "No reset needed. Tomorrow, ignore anything non-urgent and do one small recovery session first. Pick the weakest or closest-deadline task and do 10–20 minutes."
+      );
+    }
+
+    if (status === "easier") {
+      setFollowUpMessage(
+        "Switch to low-energy mode tomorrow: one short session, one tiny task, and no guilt. The aim is to keep the habit alive, not to force a full revision day."
+      );
+    }
   }
 
   function renderPlan() {
@@ -164,12 +247,12 @@ https://neuroplanstudy.com
       <section className="hero">
         <p className="tagline">NeuroPlan Study</p>
 
-        <h1>Revision planning for overwhelmed students.</h1>
+        <h1>Revision planning that adapts when life happens.</h1>
 
         <p className="subtitle">
           Build a calm, realistic revision plan for GCSEs, A-Levels, BTECs and
-          university work. Designed for students who struggle with overwhelm,
-          ADHD, autism, anxiety, burnout or simply getting started.
+          university work. Check in with your plan, track progress and adjust
+          when you fall behind.
         </p>
 
         <div className="buttons">
@@ -189,38 +272,37 @@ https://neuroplanstudy.com
       <section className="section introSection" id="how-it-works">
         <div>
           <p className="sectionLabel">Why NeuroPlan exists</p>
-          <h2>Most revision timetables are too rigid.</h2>
+          <h2>Most revision plans break the first time you miss a day.</h2>
         </div>
 
         <p>
-          A normal timetable assumes you can focus the same way every day, stay
-          motivated, follow long study blocks and never fall behind. NeuroPlan
-          works differently. It gives you short sessions, catch-up space,
-          low-energy options and a clear first step.
+          NeuroPlan is built for real students, not perfect routines. It helps
+          you start small, focus on what matters, check in honestly, and adjust
+          without restarting from zero.
         </p>
 
         <div className="cards">
           <div className="card">
-            <h3>ADHD-friendly structure</h3>
+            <h3>Adaptive planning</h3>
             <p>
-              Short sessions, visible steps and quick wins so starting feels
-              less impossible.
+              Your plan includes catch-up space and follow-up options for days
+              that do not go perfectly.
             </p>
           </div>
 
           <div className="card">
-            <h3>Autism-friendly routine</h3>
+            <h3>Low-friction check-ins</h3>
             <p>
-              Predictable plans, clear start points and reduced unnecessary
-              choices.
+              Tell NeuroPlan whether you completed, partly completed or missed
+              the day.
             </p>
           </div>
 
           <div className="card">
-            <h3>Burnout-aware planning</h3>
+            <h3>Overwhelm-aware structure</h3>
             <p>
-              Low-energy alternatives and catch-up days so one difficult day
-              does not ruin the week.
+              Short sessions, realistic study days and small first tasks make
+              revision easier to start.
             </p>
           </div>
         </div>
@@ -247,9 +329,8 @@ https://neuroplanstudy.com
         <h2>Create your revision plan</h2>
 
         <p>
-          Enter your study details below. NeuroPlan will create a personalised
-          revision structure based on your subjects, deadlines, energy and study
-          style.
+          Answer a few high-value questions. NeuroPlan will create a plan based
+          on your subjects, deadlines, weak areas, available days and energy.
         </p>
 
         <p
@@ -280,6 +361,21 @@ https://neuroplanstudy.com
           </label>
 
           <label>
+            Current situation
+            <select
+              value={form.currentSituation}
+              onChange={(e) => updateForm("currentSituation", e.target.value)}
+            >
+              <option>I’m starting from scratch</option>
+              <option>I’ve done some revision</option>
+              <option>I’m behind</option>
+              <option>My exam/deadline is soon</option>
+              <option>I need a reset plan</option>
+              <option>I need to stay consistent</option>
+            </select>
+          </label>
+
+          <label>
             Main priority
             <select
               value={form.priority}
@@ -291,6 +387,19 @@ https://neuroplanstudy.com
               <option>I have exams soon</option>
               <option>I feel burnt out</option>
               <option>I need structure</option>
+            </select>
+          </label>
+
+          <label>
+            Preferred session length
+            <select
+              value={form.sessionLength}
+              onChange={(e) => updateForm("sessionLength", e.target.value)}
+            >
+              <option>10–15 minutes</option>
+              <option>20–25 minutes</option>
+              <option>30–45 minutes</option>
+              <option>60 minutes</option>
             </select>
           </label>
 
@@ -313,7 +422,25 @@ https://neuroplanstudy.com
           </label>
 
           <label>
-            Hours available per day
+            Weak areas or hardest topics
+            <textarea
+              placeholder="Example: algebra, poetry quotes, biology required practicals, essay structure..."
+              value={form.weakAreas}
+              onChange={(e) => updateForm("weakAreas", e.target.value)}
+            />
+          </label>
+
+          <label>
+            What are you struggling with?
+            <textarea
+              placeholder="Example: I avoid starting, I panic when I see everything, I keep falling behind..."
+              value={form.struggles}
+              onChange={(e) => updateForm("struggles", e.target.value)}
+            />
+          </label>
+
+          <label>
+            Hours available per study day
             <select
               value={form.hoursPerDay}
               onChange={(e) => updateForm("hoursPerDay", e.target.value)}
@@ -351,16 +478,71 @@ https://neuroplanstudy.com
           </label>
 
           <label>
-            What are you struggling with?
-            <textarea
-              placeholder="Example: I feel behind, I avoid starting, I panic when I see everything I need to do..."
-              value={form.struggles}
-              onChange={(e) => updateForm("struggles", e.target.value)}
-            />
+            If I fall behind, NeuroPlan should
+            <select
+              value={form.adjustmentStyle}
+              onChange={(e) => updateForm("adjustmentStyle", e.target.value)}
+            >
+              <option>Make it easier</option>
+              <option>Keep me on track</option>
+              <option>Prioritise urgent tasks</option>
+              <option>Give me a low-energy version</option>
+            </select>
           </label>
 
+          <div
+            style={{
+              gridColumn: "span 2",
+              background: "rgba(255, 255, 255, 0.7)",
+              border: "2px solid rgba(124, 58, 237, 0.12)",
+              borderRadius: "20px",
+              padding: "18px",
+            }}
+          >
+            <p
+              style={{
+                marginTop: 0,
+                fontWeight: 900,
+                color: "#374151",
+              }}
+            >
+              Which days can you realistically study?
+            </p>
+
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+              }}
+            >
+              {DAYS.map((day) => (
+                <button
+                  key={day}
+                  type="button"
+                  onClick={() => toggleDay(day)}
+                  style={{
+                    padding: "10px 14px",
+                    borderRadius: "999px",
+                    border: "none",
+                    fontWeight: 900,
+                    cursor: "pointer",
+                    color: form.availableDays.includes(day)
+                      ? "white"
+                      : "#374151",
+                    background: form.availableDays.includes(day)
+                      ? "linear-gradient(135deg, #7c3aed, #2563eb)"
+                      : "white",
+                  }}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <button type="button" onClick={generatePlan} disabled={isLoading}>
-            {isLoading ? "Creating your plan..." : "Generate my AI plan"}
+            {isLoading ? "Creating your plan..." : "Generate my adaptive plan"}
           </button>
         </div>
 
@@ -391,9 +573,77 @@ https://neuroplanstudy.com
               <span>{form.qualification}</span>
               <span>{form.studyStyle}</span>
               <span>{form.energy} energy</span>
+              <span>{form.sessionLength}</span>
             </div>
 
             <div className="planContent">{renderPlan()}</div>
+
+            <div
+              style={{
+                marginTop: "22px",
+                background: "white",
+                color: "#111827",
+                borderRadius: "22px",
+                padding: "22px",
+              }}
+            >
+              <p className="sectionLabel">Today’s check-in</p>
+              <h3>How did today go?</h3>
+
+              <p>
+                NeuroPlan saves this check-in on this device and gives you a
+                simple next-step adjustment.
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                  marginTop: "14px",
+                }}
+              >
+                <button type="button" onClick={() => checkIn("completed")}>
+                  I completed today
+                </button>
+                <button type="button" onClick={() => checkIn("some")}>
+                  I did some
+                </button>
+                <button type="button" onClick={() => checkIn("missed")}>
+                  I missed it
+                </button>
+                <button type="button" onClick={() => checkIn("easier")}>
+                  I need an easier day
+                </button>
+              </div>
+
+              {followUpMessage && (
+                <p
+                  style={{
+                    marginTop: "18px",
+                    background: "#f5f3ff",
+                    color: "#4c1d95",
+                    padding: "16px",
+                    borderRadius: "16px",
+                    fontWeight: 800,
+                  }}
+                >
+                  {followUpMessage}
+                </p>
+              )}
+
+              {checkIns.length > 0 && (
+                <p
+                  style={{
+                    marginTop: "12px",
+                    color: "#4b5563",
+                    fontWeight: 700,
+                  }}
+                >
+                  Check-ins saved on this device: {checkIns.length}
+                </p>
+              )}
+            </div>
           </div>
         )}
       </section>
